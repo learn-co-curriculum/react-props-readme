@@ -3,16 +3,14 @@
 ## Overview
 
 We'll cover props in further detail and explore how they help us make our
-components more dynamic and reusable. 
-
+components more dynamic and reusable.
 
 ## Objectives
 
 1. Explain how props make our components more dynamic and reusable
 2. Pass props to a component by adding them as attributes when you render them
-2. Declare default prop values in React
-3. Render a component with props and default props
-
+3. Declare default prop values in React
+4. Render a component with props and default props
 
 ## What are props?
 
@@ -25,20 +23,22 @@ poster image, and many other attributes (or **prop**-erties!). Let's examine wha
 
 ###### Hardcoded:
 
-```js
+```jsx
 class MovieCard extends React.Component {
   render() {
     return (
       <div className="movie-card">
-        <img src="http://image.tmdb.org/t/p/w342/kqjL17yufvn9OVLyXYpvtyrFfak.jpg" alt="Mad Max: Fury Road" />
+        <img
+          src="http://image.tmdb.org/t/p/w342/kqjL17yufvn9OVLyXYpvtyrFfak.jpg"
+          alt="Mad Max: Fury Road"
+        />
         <h2>Mad Max: Fury Road</h2>
         <small>Genres: Action, Adventure, Science Fiction, Thriller</small>
       </div>
-    )
+    );
   }
 }
 ```
-
 
 ## Passing in props
 
@@ -49,7 +49,7 @@ are passed from their parents.
 
 To pass props to a component, you add them as attributes when you render them:
 
-```js
+```jsx
 const movieTitle = "Mad Max"
 <MovieCard title={movieTitle} />
 ```
@@ -58,7 +58,7 @@ The value of a prop is passed in through JSX curly braces. As we read before,
 this value can be anything: a variable, inline values, functions, etc. If your
 value is a hardcoded string, you can pass it in through double quotes instead:
 
-```js
+```jsx
 <MovieCard title="Mad Max" />
 ```
 
@@ -66,7 +66,7 @@ Armed with that knowledge, let's update `MovieCard`s render method to make use o
 
 ###### Dynamic with Props:
 
-```js
+```jsx
 // assuming we are rendering a MovieCard component with the following JSX:
 const title = "Mad Max"
 const posterURL = "http://image.tmdb.org/t/p/w342/kqjL17yufvn9OVLyXYpvtyrFfak.jpg"
@@ -75,16 +75,16 @@ const genresArr = ["Action", "Adventure", "Science Fiction", "Thriller"]
 <MovieCard title={title} posterSrc={posterURL} genres={genresArr} />
 ```
 
-```js
+```jsx
 class MovieCard extends React.Component {
   render() {
     return (
       <div className="movie-card">
         <img src={this.props.posterSrc} alt={this.props.title} />
         <h2>{this.props.title}</h2>
-        <small>{this.props.genres.join(', ')}</small>
+        <small>{this.props.genres.join(", ")}</small>
       </div>
-    )
+    );
   }
 }
 ```
@@ -92,12 +92,11 @@ class MovieCard extends React.Component {
 Now, does that not look cleaner and more reusable compared to our hard coded
 example or what!?
 
-
 ## Default values for props
 
 Let's switch gears here and imagine we are using our application to render a
 list of hundreds of movies. Let's also assume the data set we have is not always
-reliable when it comes to the urls of the movie posters. 
+reliable when it comes to the urls of the movie posters.
 
 In this case, we want to make sure our component doesn't render as an utter
 disaster when the data is incomplete. In order to do this, we can use a
@@ -114,22 +113,22 @@ can tell our `MovieCard` component to use a default prop **if the `poster` prop
 was not provided**. To do this, we add the `defaultProps` property to our
 `MovieCard` class:
 
-```js
+```jsx
 class MovieCard extends React.Component {
   render() {
     return (
       <div className="movie-card">
         <img src={this.props.posterSrc} alt={this.props.title} />
         <h2>{this.props.title}</h2>
-        <small>{this.props.genres.join(', ')}</small>
+        <small>{this.props.genres.join(", ")}</small>
       </div>
-    )
+    );
   }
 }
 
 MovieCard.defaultProps = {
-  posterSrc: 'http://i.imgur.com/bJw8ndW.png'
-}
+  posterSrc: "http://i.imgur.com/bJw8ndW.png",
+};
 ```
 
 Now, whenever we omit the `posterSrc` prop, or if it's undefined, the
@@ -137,13 +136,12 @@ Now, whenever we omit the `posterSrc` prop, or if it's undefined, the
 have to worry about not passing in a poster all the time — the component will
 take care of this for us!
 
-
 ## Why Use Default Props
 
 An alternative way we could have handled bad urls would be to have `MovieCard`'s
 parent component _check_ whether the `posterSrc` was valid/present, and then
 pass some control value as a prop when it renders `MovieCard`. This is not ideal
-compared to using a default prop within the `MovieCard` component. 
+compared to using a default prop within the `MovieCard` component.
 
 Consider the following: in React, we want components to encapsulate the
 functionality that they _can and should be responsible for_. Should the parent
@@ -153,6 +151,5 @@ the component that is responsible for rendering the movie information and poster
 to handle missing data.
 
 ## Resources
-- [React Default Prop Values](https://reactjs.org/docs/components-and-props.html#default-prop-values)
 
-<p class='util--hide'>View <a href='https://learn.co/lessons/react-props-readme'>Props</a> on Learn.co and start learning to code for free.</p>
+- [React Default Prop Values](https://reactjs.org/docs/components-and-props.html#default-prop-values)
